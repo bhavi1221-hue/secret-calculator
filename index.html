@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:black;
+color:white;
+overflow:hidden;
+}
+
+#calculator{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:300px;
+background:#222;
+padding:20px;
+border-radius:20px;
+}
+
+button{
+width:60px;
+height:60px;
+margin:5px;
+font-size:20px;
+border:none;
+border-radius:10px;
+background:#333;
+color:white;
+}
+
+#display{
+width:260px;
+height:50px;
+font-size:24px;
+margin-bottom:10px;
+text-align:right;
+padding:5px;
+}
+
+#app{
+display:none;
+width:100vw;
+height:100vh;
+position:absolute;
+top:0;
+left:0;
+overflow:hidden;
+}
+
+.bg{
+position:absolute;
+width:100%;
+height:100%;
+background-size:cover;
+background-position:center;
+animation:fade 30s infinite;
+}
+
+@keyframes fade{
+0%{opacity:1}
+50%{opacity:0.5}
+100%{opacity:1}
+}
+
+#petals span{
+position:absolute;
+width:10px;
+height:10px;
+background:pink;
+border-radius:50%;
+animation:fall 10s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10px)}
+100%{transform:translateY(100vh)}
+}
+
+#cat{
+position:absolute;
+bottom:10px;
+right:20px;
+width:120px;
+cursor:pointer;
+}
+
+#panel{
+position:absolute;
+bottom:0;
+width:100%;
+background:rgba(0,0,0,0.6);
+padding:10px;
+display:flex;
+gap:10px;
+}
+
+.tab{
+background:#444;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+}
+
+#content{
+position:absolute;
+top:10%;
+left:10%;
+width:80%;
+height:70%;
+background:rgba(0,0,0,0.6);
+overflow:auto;
+padding:20px;
+border-radius:20px;
+}
+
+textarea{
+width:100%;
+height:100px;
+}
+
+canvas{
+background:white;
+touch-action:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="calculator">
+<input id="display" readonly>
+
+<br>
+
+<button onclick="press('1')">1</button>
+<button onclick="press('2')">2</button>
+<button onclick="press('3')">3</button>
+<button onclick="press('+')">+</button>
+
+<br>
+
+<button onclick="press('4')">4</button>
+<button onclick="press('5')">5</button>
+<button onclick="press('6')">6</button>
+<button onclick="press('-')">-</button>
+
+<br>
+
+<button onclick="press('7')">7</button>
+<button onclick="press('8')">8</button>
+<button onclick="press('9')">9</button>
+<button onclick="press('*')">*</button>
+
+<br>
+
+<button onclick="press('0')">0</button>
+<button onclick="press('AC')">AC</button>
+<button onclick="press('=')">=</button>
+<button onclick="press('/')">/</button>
+
+</div>
+
+<script>
+
+let input="";
+
+function press(v){
+
+if(v=="AC"){
+input="";
+display.value="";
+return;
+}
+
+if(v=="="){
+
+if(input=="1221"){
+unlock();
+return;
+}
+
+try{
+display.value=eval(input)
+}
+catch{
+display.value="error"
+}
+
+input="";
+return;
+}
+
+input+=v;
+display.value=input;
+
+}
+
+function unlock(){
+
+document.getElementById("calculator").style.display="none";
+document.getElementById("app").style.display="block";
+
+startPetals();
+}
+
+function startPetals(){
+
+let p=document.getElementById("petals");
+
+for(let i=0;i<30;i++){
+
+let s=document.createElement("span");
+
+s.style.left=Math.random()*100+"%";
+s.style.animationDelay=Math.random()*10+"s";
+
+p.appendChild(s);
+
+}
+
+}
+
+let backgrounds=[
+"anime1.jpg",
+"anime2.jpg",
+"anime3.jpg",
+"anime4.jpg",
+"anime5.jpg"
+];
+
+let bgIndex=0;
+
+setInterval(()=>{
+
+bgIndex=(bgIndex+1)%backgrounds.length;
+
+document.getElementById("bg").style.backgroundImage=
+"url("+backgrounds[bgIndex]+")";
+
+},30000);
+
+function openTab(t){
+
+let c=document.getElementById("content");
+
+if(t=="diary"){
+
+c.innerHTML=`
+
+<h2>Momo & Pookie Diary</h2>
+
+<textarea id="entry"></textarea>
+
+<br>
+
+<button onclick="saveEntry()">Save</button>
+
+<div id="entries"></div>
+
+`;
+
+}
+
+if(t=="chat"){
+
+c.innerHTML=`
+
+<h2>Chat</h2>
+
+<input id="msg">
+
+<button onclick="send()">Send</button>
+
+<div id="chatbox"></div>
+
+`;
+
+}
+
+if(t=="doodle"){
+
+c.innerHTML=`
+
+<canvas id="draw" width="400" height="300"></canvas>
+
+<br>
+
+<button onclick="clearCanvas()">Clear</button>
+
+`;
+
+startDraw();
+
+}
+
+if(t=="capsule"){
+
+c.innerHTML=`
+
+<h2>Time Capsule</h2>
+
+<input id="date" type="date">
+
+<textarea id="capsule"></textarea>
+
+<button onclick="saveCapsule()">Save</button>
+
+`;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
