@@ -238,18 +238,20 @@ let backgrounds=[
 "./anime5.jpg"
 ];
 
-document.getElementById("bg").style.backgroundImage =
-"url('./anime1.jpg')";
+let bg=document.getElementById("bg");
+bg.style.backgroundImage="url('./anime1.jpg')";
+bg.style.backgroundSize="cover";
+
 let bgIndex=0;
 
 setInterval(()=>{
 
 bgIndex=(bgIndex+1)%backgrounds.length;
 
-document.getElementById("bg").style.backgroundImage=
-"url("+backgrounds[bgIndex]+")";
+bg.style.backgroundImage="url('"+backgrounds[bgIndex]+"')";
 
 },30000);
+
 
 function openTab(t){
 
