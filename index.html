@@ -231,13 +231,15 @@ p.appendChild(s);
 }
 
 let backgrounds=[
-"anime1.jpg",
-"anime2.jpg",
-"anime3.jpg",
-"anime4.jpg",
-"anime5.jpg"
+"./anime1.jpg",
+"./anime2.jpg",
+"./anime3.jpg",
+"./anime4.jpg",
+"./anime5.jpg"
 ];
 
+document.getElementById("bg").style.backgroundImage =
+"url('./anime1.jpg')";
 let bgIndex=0;
 
 setInterval(()=>{
